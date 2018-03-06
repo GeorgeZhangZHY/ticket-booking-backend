@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:mysql://localhost:3306/ticket_booking?serverTimezone=UTC&amp;characterEncoding=utf-8&amp;rewriteBatchedStatements=true&amp;useSSL=false</property>
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.username">George</property>
+        <property name="connection.password">Hello, world!</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <!-- DB schema will be updated if needed -->
+        <property name="hbm2ddl.auto">update</property>
+        <mapping class="edu.nju.ticketbooking.model.Coupon"/>
+        <mapping class="edu.nju.ticketbooking.model.CouponType"/>
+        <mapping class="edu.nju.ticketbooking.model.Event"/>
+        <mapping class="edu.nju.ticketbooking.model.EventSeatPrice"/>
+        <mapping class="edu.nju.ticketbooking.model.EventType"/>
+        <mapping class="edu.nju.ticketbooking.model.Manager"/>
+        <mapping class="edu.nju.ticketbooking.model.Order"/>
+        <mapping class="edu.nju.ticketbooking.model.Ticket"/>
+        <mapping class="edu.nju.ticketbooking.model.User"/>
+        <mapping class="edu.nju.ticketbooking.model.Venue"/>
+        <mapping class="edu.nju.ticketbooking.model.VenueSeatType"/>
+    </session-factory>
+</hibernate-configuration>
