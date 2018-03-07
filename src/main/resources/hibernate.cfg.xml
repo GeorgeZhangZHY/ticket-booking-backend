@@ -15,7 +15,6 @@
         <mapping class="edu.nju.ticketbooking.model.CouponType"/>
         <mapping class="edu.nju.ticketbooking.model.Event"/>
         <mapping class="edu.nju.ticketbooking.model.EventSeatPrice"/>
-        <mapping class="edu.nju.ticketbooking.model.EventType"/>
         <mapping class="edu.nju.ticketbooking.model.Manager"/>
         <mapping class="edu.nju.ticketbooking.model.Order"/>
         <mapping class="edu.nju.ticketbooking.model.Ticket"/>

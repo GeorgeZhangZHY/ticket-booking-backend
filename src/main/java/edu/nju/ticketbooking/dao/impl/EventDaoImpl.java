@@ -6,6 +6,7 @@ import edu.nju.ticketbooking.model.Event;
 import edu.nju.ticketbooking.util.HibernateUtil;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -27,16 +28,19 @@ public class EventDaoImpl implements EventDao {
     }
 
     @Override
-    public List<Event> getEventList(EventFilter filter, Object condition) {
-        String queryStr = null;
+    public List<Event> getEventList(EventFilter filter, Object condition, int pageSize, int pageNum, Timestamp fromTime, Timestamp toTime) {
+        String queryTemplate = "FROM Event WHERE %s = ? AND hostTime > ? AND hostTime < ? ORDER BY hostTime ASC LIMIT ? OFFSET ?";
+        String mainCondition = null;
         switch (filter) {
-            case VENUE:
-                queryStr = "FROM Event e WHERE e.venueId = ?";
-                break;
             case TYPE:
-                queryStr = "FROM Event e WHERE e.eventType = ?";
+                mainCondition = "eventType";
+                break;
+            case VENUE:
+                mainCondition = "venueId";
                 break;
         }
-        return HibernateUtil.getListByQuery(queryStr, new Object[]{condition});
+        String query = String.format(queryTemplate, mainCondition);
+        return HibernateUtil.getListByQuery(query, new Object[]{condition, fromTime, toTime, pageSize, pageNum * pageSize});
     }
+
 }

@@ -31,7 +31,7 @@ public class User {
     private int level = 1;
 
     @Column(name = "uscore")
-    private double score;
+    private double score;   // 用于兑换优惠券
 
     @JsonIgnore
     @Column(name = "is_deleted")

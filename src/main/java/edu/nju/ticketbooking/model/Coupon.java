@@ -35,10 +35,9 @@ public class Coupon {
 
     }
 
-    public Coupon(int couponTypeId, int userId, Timestamp getTime) {
+    public Coupon(int couponTypeId, int userId) {
         this.couponTypeId = couponTypeId;
         this.userId = userId;
-        this.getTime = getTime;
         this.isUsed = false;
     }
 

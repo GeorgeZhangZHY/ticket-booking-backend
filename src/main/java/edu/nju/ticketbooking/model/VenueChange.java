@@ -1,5 +1,7 @@
 package edu.nju.ticketbooking.model;
 
+import edu.nju.ticketbooking.constant.VenueChangeState;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -19,7 +21,8 @@ public class VenueChange {
     private Timestamp submitTime;
 
     @Column(name = "state")
-    private String state;
+    @Enumerated(value = EnumType.STRING)
+    private VenueChangeState state;
 
     @Column(name = "new_address")
     private String newAddress;
@@ -33,7 +36,7 @@ public class VenueChange {
     public VenueChange() {
     }
 
-    public VenueChange(int venueId, Timestamp submitTime, String state, String newAddress, String newDescription, String newName) {
+    public VenueChange(int venueId, Timestamp submitTime, VenueChangeState state, String newAddress, String newDescription, String newName) {
         this.venueId = venueId;
         this.submitTime = submitTime;
         this.state = state;
@@ -66,11 +69,11 @@ public class VenueChange {
         this.submitTime = submitTime;
     }
 
-    public String getState() {
+    public VenueChangeState getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(VenueChangeState state) {
         this.state = state;
     }
 

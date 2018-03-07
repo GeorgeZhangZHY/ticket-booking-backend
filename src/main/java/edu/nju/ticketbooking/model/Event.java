@@ -1,5 +1,7 @@
 package edu.nju.ticketbooking.model;
 
+import edu.nju.ticketbooking.constant.EventType;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -22,13 +24,14 @@ public class Event {
     private Timestamp hostTime;
 
     @Column(name = "etype")
-    private String eventType;
+    @Enumerated(value = EnumType.STRING)
+    private EventType eventType;
 
     public Event() {
 
     }
 
-    public Event(int venueId, String description, Timestamp hostTime, String eventType) {
+    public Event(int venueId, String description, Timestamp hostTime, EventType eventType) {
         this.venueId = venueId;
         this.description = description;
         this.hostTime = hostTime;
@@ -67,11 +70,11 @@ public class Event {
         this.hostTime = hostTime;
     }
 
-    public String getEventType() {
+    public EventType getEventType() {
         return eventType;
     }
 
-    public void setEventType(String eventType) {
+    public void setEventType(EventType eventType) {
         this.eventType = eventType;
     }
 }

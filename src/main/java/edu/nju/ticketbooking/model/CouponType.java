@@ -21,7 +21,7 @@ public class CouponType {
     private double condition;   // 订单价格满多少可以使用
 
     @Column(name = "score_needed")
-    private int scoreNeeded;   // 兑换所需积分
+    private double scoreNeeded;   // 兑换所需积分
 
     @Column(name = "is_activated")
     private boolean isActivated = true;    // 是否可供兑换
@@ -67,7 +67,7 @@ public class CouponType {
         this.condition = condition;
     }
 
-    public int getScoreNeeded() {
+    public double getScoreNeeded() {
         return scoreNeeded;
     }
 
