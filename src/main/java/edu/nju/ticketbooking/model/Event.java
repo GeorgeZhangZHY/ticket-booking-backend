@@ -27,15 +27,19 @@ public class Event {
     @Enumerated(value = EnumType.STRING)
     private EventType eventType;
 
+    @Column(name = "poster_url")
+    private String posterUrl;
+
     public Event() {
 
     }
 
-    public Event(int venueId, String description, Timestamp hostTime, EventType eventType) {
+    public Event(int venueId, String description, Timestamp hostTime, EventType eventType, String posterUrl) {
         this.venueId = venueId;
         this.description = description;
         this.hostTime = hostTime;
         this.eventType = eventType;
+        this.posterUrl = posterUrl;
     }
 
     public int getId() {
@@ -76,5 +80,13 @@ public class Event {
 
     public void setEventType(EventType eventType) {
         this.eventType = eventType;
+    }
+
+    public String getPosterUrl() {
+        return posterUrl;
+    }
+
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
     }
 }

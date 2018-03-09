@@ -7,6 +7,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 优惠券、会员等级优惠等仅针对Order进行计算
+ */
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -40,6 +43,10 @@ public class Order {
 
     @OneToMany
     private List<Ticket> tickets = new ArrayList<>();
+
+    @OneToOne()
+    @JoinColumn(name = "cid", unique = true)
+    private Coupon coupon;
 
     public Order() {
 
@@ -124,5 +131,13 @@ public class Order {
 
     public void setCanceled(boolean canceled) {
         isCanceled = canceled;
+    }
+
+    public Coupon getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(Coupon coupon) {
+        this.coupon = coupon;
     }
 }

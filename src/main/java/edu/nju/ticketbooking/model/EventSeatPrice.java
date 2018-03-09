@@ -20,6 +20,10 @@ public class EventSeatPrice {
     @Column(name = "price")
     private double price;
 
+    @ManyToOne
+    @JoinColumn(name = "vstid", insertable = false, updatable = false)
+    private VenueSeatType venueSeatType;
+
     public EventSeatPrice() {
     }
 
@@ -59,5 +63,13 @@ public class EventSeatPrice {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public VenueSeatType getVenueSeatType() {
+        return venueSeatType;
+    }
+
+    public void setVenueSeatType(VenueSeatType venueSeatType) {
+        this.venueSeatType = venueSeatType;
     }
 }

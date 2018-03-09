@@ -18,4 +18,9 @@ public class TicketDaoImpl implements TicketDao {
         return (Ticket) HibernateUtil.saveModified(modifiedTicket);
     }
 
+    @Override
+    public Ticket getTicket(int ticketId) {
+        return (Ticket) HibernateUtil.getById(ticketId, Ticket.class);
+    }
+
 }

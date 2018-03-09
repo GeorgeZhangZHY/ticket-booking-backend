@@ -28,5 +28,6 @@ public interface UserServ {
      */
     User applyForNewUser(User user);
 
+    void addScore(int userId, double scoreToAdd);
 
 }

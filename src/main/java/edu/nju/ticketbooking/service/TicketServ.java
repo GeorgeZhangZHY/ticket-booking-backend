@@ -1,12 +1,12 @@
-package edu.nju.ticketbooking.dao;
+package edu.nju.ticketbooking.service;
 
 import edu.nju.ticketbooking.model.Ticket;
 
-public interface TicketDao {
+public interface TicketServ {
 
     Ticket addNewTicket(Ticket newTicket);
 
     Ticket modifyTicket(Ticket modifiedTicket);
 
-    Ticket getTicket(int ticketId);
+    void checkTicket(int ticketId);
 }

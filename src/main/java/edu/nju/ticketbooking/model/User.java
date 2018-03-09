@@ -44,6 +44,9 @@ public class User {
     @Column(name = "is_activated")
     private boolean isActivated;
 
+    @Column(name = "accu_score")
+    private double accumulatedScore;  // 累计积分，用于用户升级，类似于经验值
+
     public User() {
 
     }
@@ -141,4 +144,11 @@ public class User {
         isActivated = activated;
     }
 
+    public double getAccumulatedScore() {
+        return accumulatedScore;
+    }
+
+    public void setAccumulatedScore(double levelScore) {
+        this.accumulatedScore = levelScore;
+    }
 }

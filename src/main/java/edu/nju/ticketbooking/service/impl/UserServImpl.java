@@ -12,15 +12,26 @@ public class UserServImpl implements UserServ {
     @Autowired
     private UserDao userDao;
 
+    /**
+     * 二阶等差
+     * 100分2级 300分3级 600分4级 1000分5级，以此类推，最高11级（即5500分）
+     */
+    private int calcUserLevel(double accumulatedScore) {
+        if (accumulatedScore >= 5500) {
+            return 11;
+        }
+        return 1 + (int) (Math.sqrt(8 * (accumulatedScore / 100) + 1) - 1) / 2;
+    }
+
     @Override
-    public User getUser(int id) {
-        User user = userDao.getUser(id);
+    public User getUser(int userId) {
+        User user = userDao.getUser(userId);
         return user != null && user.getIsActivated() ? user : null;
     }
 
     @Override
-    public void deleteUser(int id) {
-        userDao.deleteUser(id);
+    public void deleteUser(int userId) {
+        userDao.deleteUser(userId);
     }
 
     @Override
@@ -31,5 +42,14 @@ public class UserServImpl implements UserServ {
     @Override
     public User applyForNewUser(User user) {
         return userDao.addNewUser(user);
+    }
+
+    @Override
+    public void addScore(int userId, double scoreToAdd) {
+        User user = userDao.getUser(userId);
+        user.setScore(user.getScore() + scoreToAdd);
+        user.setAccumulatedScore(user.getAccumulatedScore() + scoreToAdd);
+        user.setLevel(calcUserLevel(user.getAccumulatedScore()));
+        modifyUser(user);
     }
 }
