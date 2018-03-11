@@ -7,13 +7,15 @@ public interface UserServ {
     /**
      * 获取已激活的用户信息
      */
-    User getUser(int id);
+    User getUser(int userId);
 
-//    User login(String email, String password);
+    User login(String email, String password);
 
 //    boolean logout();
 
-    void deleteUser(int id);
+    void deleteUser(int userId);
+
+    void activateUser(int userId);
 
     /**
      * 修改用户信息
@@ -26,8 +28,19 @@ public interface UserServ {
     /**
      * 申请新用户
      */
-    User applyForNewUser(User user);
+    User applyForNewUser(User newUser);
 
-    void addScore(int userId, double scoreToAdd);
+    /**
+     * @param scoreDelta  变更的积分数，若为负数表示减分
+     * @param accumulated 是否影响累计积分，若影响，则为true
+     */
+    boolean modifyScore(int userId, double scoreDelta, boolean accumulated);
+
+    /**
+     * @param balanceDelta 变更的金额，若为负数表示减少
+     */
+    boolean modifyBalance(int userId, double balanceDelta);
+
+    double getUserLevelDiscount(int userId);
 
 }

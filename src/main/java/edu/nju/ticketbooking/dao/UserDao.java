@@ -4,9 +4,9 @@ import edu.nju.ticketbooking.model.User;
 
 public interface UserDao {
 
-    User getUser(int id);
+    User getUser(int userId);
 
-    void deleteUser(int id);
+    User getUserByEmail(String email);
 
     /**
      * 修改用户信息

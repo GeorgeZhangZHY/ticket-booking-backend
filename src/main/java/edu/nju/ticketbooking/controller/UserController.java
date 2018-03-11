@@ -11,13 +11,19 @@ public class UserController {
     @Autowired
     private UserServ userServ;
 
+    @GetMapping("/activate")
+    public String activateUser(@RequestParam(value = "userId") int userId) {
+        userServ.activateUser(userId);
+        return "账号已激活";
+    }
+
     @GetMapping("/user")
-    public User getUser(@RequestParam(value = "userId") String userId) {
-        return userServ.getUser(Integer.parseInt((userId)));
+    public User getUser(@RequestParam(value = "userId") int userId) {
+        return userServ.getUser(userId);
     }
 
     @PostMapping("/user")
-    public User addNewUser(@RequestBody User newUser) {
+    public User applyForNewUser(@RequestBody User newUser) {
         return userServ.applyForNewUser(newUser);
     }
 

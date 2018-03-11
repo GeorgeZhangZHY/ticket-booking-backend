@@ -17,6 +17,21 @@ public class HibernateUtil {
         return config.buildSessionFactory();
     }
 
+    private static Object getByQuery(String queryStr, Object[] params, boolean isSingle) {
+        Session session = HibernateUtil.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery(queryStr);
+        if (params != null) {
+            for (int i = 0; i < params.length; i++) {
+                query.setParameter(i, params[i]);
+            }
+        }
+
+        Object result = isSingle ? query.getSingleResult() : query.list();
+        transaction.commit();
+        return result;
+    }
+
     public static Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
@@ -46,20 +61,12 @@ public class HibernateUtil {
         return obj;
     }
 
+    public static Object getSingleByQuery(String queryStr, Object[] params) {
+        return getByQuery(queryStr, params, true);
+    }
+
     public static List getListByQuery(String queryStr, Object[] params) {
-        Session session = HibernateUtil.getCurrentSession();
-        Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery(queryStr);
-
-        if (params != null) {
-            for (int i = 0; i < params.length; i++) {
-                query.setParameter(i, params[i]);
-            }
-        }
-
-        List result = query.list();
-        transaction.commit();
-        return result;
+        return (List) getByQuery(queryStr, params, false);
     }
 
     public static void deleteById(int id, Class objClass) {

@@ -8,9 +8,9 @@ public interface OrderServ {
 
     List<Order> getUserOrderList(int userId);
 
-    Order addNewOrder(Order order);
+    Order addNewOrder(Order newOrder);
 
-    void payOrder(int orderId);
+    boolean payOrder(int orderId);
 
     void cancelOrder(int orderId);
 

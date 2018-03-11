@@ -1,5 +1,5 @@
 package edu.nju.ticketbooking.constant;
 
 public enum OrderState {
-    CANCELED, PAID, UNPAID
+    CANCELED, PAID, UNPAID, COMPLETED
 }

@@ -41,11 +41,15 @@ public class Order {
     @Column(name = "is_canceled")
     private boolean isCanceled = false;
 
+    @ManyToOne
+    @JoinColumn(name = "eid", insertable = false, updatable = false)
+    private Event event;
+
     @OneToMany
     private List<Ticket> tickets = new ArrayList<>();
 
     @OneToOne()
-    @JoinColumn(name = "cid", unique = true)
+    @JoinColumn(name = "cid", unique = true, insertable = false, updatable = false)
     private Coupon coupon;
 
     public Order() {
@@ -139,5 +143,13 @@ public class Order {
 
     public void setCoupon(Coupon coupon) {
         this.coupon = coupon;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }
