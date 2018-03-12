@@ -1,6 +1,6 @@
 package edu.nju.ticketbooking.dao;
 
-import edu.nju.ticketbooking.constant.EventFilter;
+import edu.nju.ticketbooking.constant.EventFilterType;
 import edu.nju.ticketbooking.model.Event;
 
 import java.sql.Timestamp;
@@ -14,6 +14,6 @@ public interface EventDao {
 
     Event getEvent(int eventId);
 
-    List<Event> getEventList(EventFilter filter, Object condition, int pageSize, int pageNum, Timestamp fromTime, Timestamp toTime);
+    List<Event> getEventList(EventFilterType filter, Object condition, int pageSize, int pageNum, Timestamp fromTime, Timestamp toTime);
 
 }

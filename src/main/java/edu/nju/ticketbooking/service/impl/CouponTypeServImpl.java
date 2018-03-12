@@ -6,6 +6,8 @@ import edu.nju.ticketbooking.service.CouponTypeServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CouponTypeServImpl implements CouponTypeServ {
 
@@ -27,5 +29,10 @@ public class CouponTypeServImpl implements CouponTypeServ {
     @Override
     public CouponType modifyCouponType(CouponType modifiedCouponType) {
         return couponTypeDao.modifyCouponType(modifiedCouponType);
+    }
+
+    @Override
+    public List<CouponType> getCouponTypeList(boolean activatedOnly) {
+        return couponTypeDao.getCouponTypeList(activatedOnly);
     }
 }

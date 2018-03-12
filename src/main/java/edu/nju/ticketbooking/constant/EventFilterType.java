@@ -1,5 +1,5 @@
 package edu.nju.ticketbooking.constant;
 
-public enum EventFilter {
+public enum EventFilterType {
     VENUE, TYPE
 }

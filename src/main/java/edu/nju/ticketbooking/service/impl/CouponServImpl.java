@@ -8,6 +8,8 @@ import edu.nju.ticketbooking.service.UserServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CouponServImpl implements CouponServ {
 
@@ -31,9 +33,16 @@ public class CouponServImpl implements CouponServ {
     }
 
     @Override
-    public void useCoupon(int couponId) {
+    public void setCouponUsed(int couponId, boolean isUsed) {
         Coupon coupon = couponDao.getCoupon(couponId);
-        coupon.setUsed(true);
-        couponDao.modifyCoupon(coupon);
+        if (coupon != null) {
+            coupon.setUsed(isUsed);
+            couponDao.modifyCoupon(coupon);
+        }
+    }
+
+    @Override
+    public List<Coupon> getUserCouponList(int userId) {
+        return couponDao.getUserCouponList(userId);
     }
 }

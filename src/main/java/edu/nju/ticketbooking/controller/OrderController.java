@@ -23,8 +23,13 @@ public class OrderController {
         return orderServ.addNewOrder(order);
     }
 
-    @PutMapping(value = "/order")
+    @PutMapping(value = "/order/pay")
     public boolean payOrder(@RequestParam(value = "orderId") int orderId) {
-        return false;
+        return orderServ.payOrder(orderId);
+    }
+
+    @PutMapping(value = "/order/cancel")
+    public void cancelOrder(@RequestParam(value = "orderId") int orderId) {
+        orderServ.cancelOrder(orderId);
     }
 }

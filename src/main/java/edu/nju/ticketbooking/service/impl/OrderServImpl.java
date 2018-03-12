@@ -4,6 +4,7 @@ import edu.nju.ticketbooking.constant.OrderState;
 import edu.nju.ticketbooking.dao.OrderDao;
 import edu.nju.ticketbooking.model.Order;
 import edu.nju.ticketbooking.model.Ticket;
+import edu.nju.ticketbooking.service.CouponServ;
 import edu.nju.ticketbooking.service.OrderServ;
 import edu.nju.ticketbooking.service.UserServ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class OrderServImpl implements OrderServ {
     @Autowired
     private UserServ userServ;
 
+    @Autowired
+    private CouponServ couponServ;
+
     /**
      * 自动取消15分钟内未支付的订单
      */
@@ -29,8 +33,7 @@ public class OrderServImpl implements OrderServ {
             long timePassed = System.currentTimeMillis() - order.getCreateTime().getTime();
             int minutesPassed = (int) timePassed / (1000 * 60);
             if (minutesPassed >= 15) {
-                order.setState(OrderState.CANCELED);
-                orderDao.modifyOrder(order);
+                cancelOrder(order.getId());
             }
         }
     }
@@ -89,12 +92,17 @@ public class OrderServImpl implements OrderServ {
     @Override
     public Order addNewOrder(Order newOrder) {
         newOrder.setTotalPrice(calcOrderPrice(newOrder));
+        couponServ.setCouponUsed(newOrder.getCouponId(), true);
         return orderDao.addNewOrder(newOrder);
     }
 
     @Override
     public boolean payOrder(int orderId) {
         Order order = orderDao.getOrder(orderId);
+        if (order.getState() != OrderState.UNPAID) {
+            return false;
+        }
+
         int userId = order.getUserId();
         double priceToPay = order.getTotalPrice();
 
@@ -118,6 +126,8 @@ public class OrderServImpl implements OrderServ {
                 userServ.modifyBalance(order.getUserId(), refund);
             }
             orderDao.modifyOrder(order);
+            // 退还优惠券
+            couponServ.setCouponUsed(order.getCouponId(), false);
         }
     }
 }

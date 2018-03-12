@@ -56,10 +56,9 @@ public class Order {
 
     }
 
-    public Order(int eventId, int userId, OrderState state, double totalPrice, int couponId, Timestamp createTime) {
+    public Order(int eventId, int userId, double totalPrice, int couponId, Timestamp createTime) {
         this.eventId = eventId;
         this.userId = userId;
-        this.state = state;
         this.totalPrice = totalPrice;
         this.couponId = couponId;
         this.createTime = createTime;

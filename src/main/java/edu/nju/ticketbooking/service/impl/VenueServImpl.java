@@ -25,6 +25,11 @@ public class VenueServImpl implements VenueServ {
     }
 
     @Override
+    public Venue getVenue(int venueId) {
+        return venueDao.getVenue(venueId);
+    }
+
+    @Override
     public Venue modifyVenue(Venue modifiedVenue) {
         return venueDao.modifyVenue(modifiedVenue);
     }

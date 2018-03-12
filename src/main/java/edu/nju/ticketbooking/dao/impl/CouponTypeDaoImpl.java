@@ -21,8 +21,9 @@ public class CouponTypeDaoImpl implements CouponTypeDao {
     }
 
     @Override
-    public List<CouponType> getAllCouponType() {
-        return HibernateUtil.getListByQuery("FROM CouponType", null);
+    public List<CouponType> getCouponTypeList(boolean activatedOnly) {
+        String query = "FROM CouponType" + (activatedOnly ? " WHERE isActivated = TRUE" : "");
+        return HibernateUtil.getListByQuery(query, null);
     }
 
     @Override

@@ -10,7 +10,7 @@ public interface CouponTypeDao {
 
     CouponType modifyCouponType(CouponType modifiedCouponType);
 
-    List<CouponType> getAllCouponType();
+    List<CouponType> getCouponTypeList(boolean activatedOnly);
 
     CouponType addNewCouponType(CouponType newCouponType);
 }
