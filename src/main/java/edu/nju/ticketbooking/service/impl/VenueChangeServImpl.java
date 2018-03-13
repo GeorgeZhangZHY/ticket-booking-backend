@@ -21,11 +21,6 @@ public class VenueChangeServImpl implements VenueChangeServ {
     private VenueServ venueServ;
 
     @Override
-    public VenueChange modifyVenueChange(VenueChange modifiedVenueChange) {
-        return venueChangeDao.modifyVenueChange(modifiedVenueChange);
-    }
-
-    @Override
     public void setVenueChangeApproved(int venueChangeId, boolean isApproved) {
         VenueChange change = venueChangeDao.getVenueChange(venueChangeId);
         change.setState(isApproved ? VenueChangeState.APPROVED : VenueChangeState.REJECTED);
@@ -33,9 +28,18 @@ public class VenueChangeServImpl implements VenueChangeServ {
         if (isApproved) {
             // 根据申请修改场馆信息
             Venue venue = venueServ.getVenue(change.getVenueId());
-            venue.setAddress(change.getNewAddress());
-            venue.setDescription(change.getNewDescription());
-            venue.setName(change.getNewName());
+            String newAddr = change.getNewAddress(),
+                    newDesc = change.getNewDescription(),
+                    newName = change.getNewName();
+            if (newAddr != null) {
+                venue.setAddress(newAddr);
+            }
+            if (newDesc != null) {
+                venue.setDescription(newDesc);
+            }
+            if (newName != null) {
+                venue.setName(newName);
+            }
             venueServ.modifyVenue(venue);
         }
     }

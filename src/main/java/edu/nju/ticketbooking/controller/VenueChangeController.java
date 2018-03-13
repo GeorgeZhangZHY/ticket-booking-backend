@@ -29,11 +29,6 @@ public class VenueChangeController {
     }
 
     @PutMapping(value = "/venueChange")
-    public VenueChange modifyVenueChange(@RequestBody VenueChange modifiedVenueChange) {
-        return venueChangeServ.modifyVenueChange(modifiedVenueChange);
-    }
-
-    @PutMapping(value = "/venueChange/approve")
     public boolean setVenueChangeApproved(
             @RequestParam(value = "venueChangeId") int venueChangeId,
             @RequestParam(value = "isApproved") boolean isApproved

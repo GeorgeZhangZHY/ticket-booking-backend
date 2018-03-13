@@ -7,9 +7,9 @@ import javax.persistence.*;
 public class VenueSeatType {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vstid", updatable = false)
-    private int id;
+    private int venueSeatTypeId;
 
     @Column(name = "vid")
     private int venueId;
@@ -37,12 +37,12 @@ public class VenueSeatType {
         this.totalColumnNum = totalColumnNum;
     }
 
-    public int getId() {
-        return id;
+    public int getVenueSeatTypeId() {
+        return venueSeatTypeId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setVenueSeatTypeId(int id) {
+        this.venueSeatTypeId = id;
     }
 
     public int getVenueId() {

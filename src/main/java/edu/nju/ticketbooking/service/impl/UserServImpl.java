@@ -64,14 +64,17 @@ public class UserServImpl implements UserServ {
 
     @Override
     public User modifyUser(User modifiedUser) {
-        return userDao.modifyUser(modifiedUser);
+        User targetUser = userDao.getUser(modifiedUser.getUserId());
+        targetUser.setName(modifiedUser.getName());
+        targetUser.setGender(modifiedUser.getGender());
+        return userDao.modifyUser(targetUser);
     }
 
     @Override
     public User applyForNewUser(User newUser) {
         User savedUser = userDao.addNewUser(newUser);
         String mailTo = savedUser.getEmail();
-        String htmlContent = getActivateHtml(savedUser.getId());
+        String htmlContent = getActivateHtml(savedUser.getUserId());
         String subject = "在线订票系统账号激活";
         EmailUtil.sendMail(mailTo, subject, htmlContent);
         return savedUser;

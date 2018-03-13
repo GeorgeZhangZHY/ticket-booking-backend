@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface VenueChangeServ {
 
-    VenueChange modifyVenueChange(VenueChange modifiedVenueChange);
-
     void setVenueChangeApproved(int venueChangeId, boolean isApproved);
 
     VenueChange addNewVenueChange(VenueChange newVenueChange);

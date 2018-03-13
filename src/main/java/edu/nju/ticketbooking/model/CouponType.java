@@ -7,9 +7,9 @@ import javax.persistence.*;
 public class CouponType {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ctid", updatable = false)
-    private int id;
+    private int couponTypeId;
 
     @Column(name = "cdesc")
     private String description;
@@ -35,12 +35,12 @@ public class CouponType {
         this.condition = condition;
     }
 
-    public int getId() {
-        return id;
+    public int getCouponTypeId() {
+        return couponTypeId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCouponTypeId(int id) {
+        this.couponTypeId = id;
     }
 
     public String getDescription() {

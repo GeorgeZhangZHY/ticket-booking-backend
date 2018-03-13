@@ -10,12 +10,15 @@ import java.sql.Timestamp;
 public class Event {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "eid", updatable = false)
-    private int id;
+    private int eventId;
 
     @Column(name = "vid")
     private int venueId;
+
+    @Column(name = "ename")
+    private String eventName;
 
     @Column(name = "edesc")
     private String description;
@@ -34,20 +37,21 @@ public class Event {
 
     }
 
-    public Event(int venueId, String description, Timestamp hostTime, EventType eventType, String posterUrl) {
+    public Event(int venueId, String eventName, String description, Timestamp hostTime, EventType eventType, String posterUrl) {
         this.venueId = venueId;
+        this.eventName = eventName;
         this.description = description;
         this.hostTime = hostTime;
         this.eventType = eventType;
         this.posterUrl = posterUrl;
     }
 
-    public int getId() {
-        return id;
+    public int getEventId() {
+        return eventId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setEventId(int id) {
+        this.eventId = id;
     }
 
     public int getVenueId() {
@@ -88,5 +92,13 @@ public class Event {
 
     public void setPosterUrl(String posterUrl) {
         this.posterUrl = posterUrl;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 }

@@ -29,7 +29,7 @@ public class EventSeatPriceController {
     }
 
     @GetMapping(value = "/eventSeatPrice")
-    public List<EventSeatPrice> getEventSeatPriceList(@RequestParam(value = "evenId") int eventId) {
+    public List<EventSeatPrice> getEventSeatPriceList(@RequestParam(value = "eventId") int eventId) {
         return seatPriceServ.getEventSeatPriceList(eventId);
     }
 

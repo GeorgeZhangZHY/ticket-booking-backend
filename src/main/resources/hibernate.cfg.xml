@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:mysql://localhost:3306/ticket_booking?serverTimezone=UTC&amp;characterEncoding=utf-8&amp;rewriteBatchedStatements=true&amp;useSSL=false</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/ticket_booking?serverTimezone=Asia/Shanghai&amp;characterEncoding=utf-8&amp;rewriteBatchedStatements=true&amp;useSSL=false</property>
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="connection.username">George</property>
         <property name="connection.password">Hello, world!</property>
@@ -20,6 +20,7 @@
         <mapping class="edu.nju.ticketbooking.model.Ticket"/>
         <mapping class="edu.nju.ticketbooking.model.User"/>
         <mapping class="edu.nju.ticketbooking.model.Venue"/>
+        <mapping class="edu.nju.ticketbooking.model.VenueChange"/>
         <mapping class="edu.nju.ticketbooking.model.VenueSeatType"/>
     </session-factory>
 </hibernate-configuration>

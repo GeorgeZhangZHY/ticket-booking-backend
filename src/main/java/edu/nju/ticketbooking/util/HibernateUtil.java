@@ -1,5 +1,6 @@
 package edu.nju.ticketbooking.util;
 
+import edu.nju.ticketbooking.model.Page;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -17,17 +18,25 @@ public class HibernateUtil {
         return config.buildSessionFactory();
     }
 
-    private static Object getByQuery(String queryStr, Object[] params, boolean isSingle) {
-        Session session = HibernateUtil.getCurrentSession();
-        Transaction transaction = session.beginTransaction();
+    private static Query createQuery(Session session, String queryStr, Object[] params) {
         Query query = session.createQuery(queryStr);
         if (params != null) {
             for (int i = 0; i < params.length; i++) {
                 query.setParameter(i, params[i]);
             }
         }
+        return query;
+    }
 
-        Object result = isSingle ? query.getSingleResult() : query.list();
+    private static List getListByQueryImpl(String queryStr, Object[] params, Page page) {
+        Session session = HibernateUtil.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = createQuery(session, queryStr, params);
+        if (page != null) {
+            query.setFirstResult(page.getOffset());
+            query.setMaxResults(page.getPageSize());
+        }
+        List result = query.list();
         transaction.commit();
         return result;
     }
@@ -62,11 +71,20 @@ public class HibernateUtil {
     }
 
     public static Object getSingleByQuery(String queryStr, Object[] params) {
-        return getByQuery(queryStr, params, true);
+        Session session = HibernateUtil.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = createQuery(session, queryStr, params);
+        Object result = query.getSingleResult();
+        transaction.commit();
+        return result;
     }
 
     public static List getListByQuery(String queryStr, Object[] params) {
-        return (List) getByQuery(queryStr, params, false);
+        return getListByQueryImpl(queryStr, params, null);
+    }
+
+    public static List getPageByQuery(String queryStr, Object[] params, Page page) {
+        return getListByQueryImpl(queryStr, params, page);
     }
 
     public static void deleteById(int id, Class objClass) {

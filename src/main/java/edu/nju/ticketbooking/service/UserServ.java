@@ -19,7 +19,7 @@ public interface UserServ {
 
     /**
      * 修改用户信息
-     *
+     * 包括用户名和性别
      * @param modifiedUser 修改后的用户信息
      * @return 修改后的用户信息，若修改失败则为null
      */

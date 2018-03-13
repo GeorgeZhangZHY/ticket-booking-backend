@@ -11,6 +11,9 @@ public class TicketController {
     @Autowired
     private TicketServ ticketServ;
 
+    /**
+     * 用于现场非会员购票
+     */
     @PostMapping(value = "/ticket")
     public Ticket addNewTicket(@RequestBody Ticket newTicket) {
         return ticketServ.addNewTicket(newTicket);

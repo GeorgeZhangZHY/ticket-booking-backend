@@ -7,12 +7,9 @@ import javax.persistence.*;
 public class Ticket {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tid", updatable = false)
-    private int id;
-
-    @Column(name = "oid")
-    private int orderId;
+    private int ticketId;
 
     @Column(name = "eid")
     private int eventId;
@@ -32,16 +29,18 @@ public class Ticket {
     @Column(name = "is_checked")
     private boolean isChecked;
 
-    @ManyToOne
-    @JoinColumn(name = "oid", updatable = false, insertable = false)
-    private Order order;
+    @Column(name = "is_online")
+    private boolean isOnline;   // false表示为线下非会员购买
+
+//    @ManyToOne
+//    @JoinColumn(name = "oid", updatable = false, insertable = false)
+//    private Order order;
 
     public Ticket() {
 
     }
 
-    public Ticket(int orderId, int eventId, int venueSeatTypeId, int rowNum, int columnNum, double price) {
-        this.orderId = orderId;
+    public Ticket(int eventId, int venueSeatTypeId, int rowNum, int columnNum, double price) {
         this.eventId = eventId;
         this.venueSeatTypeId = venueSeatTypeId;
         this.rowNum = rowNum;
@@ -49,20 +48,12 @@ public class Ticket {
         this.price = price;
     }
 
-    public int getId() {
-        return id;
+    public int getTicketId() {
+        return ticketId;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setTicketId(int id) {
+        this.ticketId = id;
     }
 
     public int getEventId() {
@@ -97,13 +88,13 @@ public class Ticket {
         this.columnNum = columnNum;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+//    public Order getOrder() {
+//        return order;
+//    }
+//
+//    public void setOrder(Order order) {
+//        this.order = order;
+//    }
 
     public double getPrice() {
         return price;

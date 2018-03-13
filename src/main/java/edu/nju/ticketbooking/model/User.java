@@ -10,9 +10,9 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uid", updatable = false)
-    private int id;
+    private int userId;
 
     @Column(name = "uemail")
     private String email;
@@ -63,12 +63,12 @@ public class User {
         this.isActivated = isActivated;
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int id) {
+        this.userId = id;
     }
 
     public String getEmail() {

@@ -1,10 +1,10 @@
 package edu.nju.ticketbooking.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.nju.ticketbooking.constant.OrderState;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,9 +15,9 @@ import java.util.List;
 public class Order {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "oid", updatable = false)
-    private int id;
+    private int orderId;
 
     @Column(name = "eid")
     private int eventId;
@@ -32,11 +32,9 @@ public class Order {
     @Column(name = "oprice")
     private double totalPrice;
 
-    @Column(name = "cid")
-    private int couponId;
-
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "create_time")
-    private Timestamp createTime;
+    private Timestamp createTime = new Timestamp(System.currentTimeMillis());
 
     @Column(name = "is_canceled")
     private boolean isCanceled = false;
@@ -45,10 +43,10 @@ public class Order {
     @JoinColumn(name = "eid", insertable = false, updatable = false)
     private Event event;
 
-    @OneToMany
-    private List<Ticket> tickets = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Ticket> tickets;
 
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "cid", unique = true, insertable = false, updatable = false)
     private Coupon coupon;
 
@@ -56,20 +54,19 @@ public class Order {
 
     }
 
-    public Order(int eventId, int userId, double totalPrice, int couponId, Timestamp createTime) {
+    public Order(int eventId, int userId, double totalPrice, Timestamp createTime) {
         this.eventId = eventId;
         this.userId = userId;
         this.totalPrice = totalPrice;
-        this.couponId = couponId;
         this.createTime = createTime;
     }
 
-    public int getId() {
-        return id;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOrderId(int id) {
+        this.orderId = id;
     }
 
     public int getEventId() {
@@ -102,14 +99,6 @@ public class Order {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
-    }
-
-    public int getCouponId() {
-        return couponId;
-    }
-
-    public void setCouponId(int couponId) {
-        this.couponId = couponId;
     }
 
     public Timestamp getCreateTime() {

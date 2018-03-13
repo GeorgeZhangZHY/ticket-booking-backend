@@ -2,6 +2,7 @@ package edu.nju.ticketbooking.dao.impl;
 
 import edu.nju.ticketbooking.constant.VenueChangeState;
 import edu.nju.ticketbooking.dao.VenueChangeDao;
+import edu.nju.ticketbooking.model.Page;
 import edu.nju.ticketbooking.model.VenueChange;
 import edu.nju.ticketbooking.util.HibernateUtil;
 import org.springframework.stereotype.Repository;
@@ -28,7 +29,7 @@ public class VenueChangeDaoImpl implements VenueChangeDao {
 
     @Override
     public List<VenueChange> getVenueChangeList(VenueChangeState state, int pageSize, int pageNum) {
-        String query = "FROM VenueChange WHERE state = ? ORDER BY submitTime DESC LIMIT ? OFFSET ?";
-        return HibernateUtil.getListByQuery(query, new Object[]{state, pageSize, pageNum * pageSize});
+        String query = "FROM VenueChange WHERE state = ? ORDER BY submitTime DESC";
+        return HibernateUtil.getPageByQuery(query, new Object[]{state}, new Page(pageSize, pageNum));
     }
 }

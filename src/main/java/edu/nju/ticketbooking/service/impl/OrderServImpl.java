@@ -2,10 +2,12 @@ package edu.nju.ticketbooking.service.impl;
 
 import edu.nju.ticketbooking.constant.OrderState;
 import edu.nju.ticketbooking.dao.OrderDao;
+import edu.nju.ticketbooking.model.Coupon;
 import edu.nju.ticketbooking.model.Order;
 import edu.nju.ticketbooking.model.Ticket;
 import edu.nju.ticketbooking.service.CouponServ;
 import edu.nju.ticketbooking.service.OrderServ;
+import edu.nju.ticketbooking.service.TicketServ;
 import edu.nju.ticketbooking.service.UserServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,9 @@ public class OrderServImpl implements OrderServ {
     @Autowired
     private CouponServ couponServ;
 
+    @Autowired
+    private TicketServ ticketServ;
+
     /**
      * 自动取消15分钟内未支付的订单
      */
@@ -33,7 +38,7 @@ public class OrderServImpl implements OrderServ {
             long timePassed = System.currentTimeMillis() - order.getCreateTime().getTime();
             int minutesPassed = (int) timePassed / (1000 * 60);
             if (minutesPassed >= 15) {
-                cancelOrder(order.getId());
+                cancelOrder(order.getOrderId());
             }
         }
     }
@@ -57,7 +62,11 @@ public class OrderServImpl implements OrderServ {
         for (Ticket ticket : tickets) {
             totalTicketPrice += ticket.getPrice();
         }
-        double couponPrice = order.getCoupon().getCouponType().getPrice();
+        Coupon coupon = order.getCoupon();
+        double couponPrice = 0;
+        if (coupon != null) {
+            couponPrice = coupon.getCouponType().getPrice();
+        }
         double userDiscount = userServ.getUserLevelDiscount(order.getUserId());
         return (totalTicketPrice - couponPrice) * userDiscount;
     }
@@ -92,7 +101,10 @@ public class OrderServImpl implements OrderServ {
     @Override
     public Order addNewOrder(Order newOrder) {
         newOrder.setTotalPrice(calcOrderPrice(newOrder));
-        couponServ.setCouponUsed(newOrder.getCouponId(), true);
+        Coupon coupon = newOrder.getCoupon();
+        if (coupon != null) {
+            couponServ.setCouponUsed(coupon.getCouponId(), true);
+        }
         return orderDao.addNewOrder(newOrder);
     }
 
@@ -127,7 +139,10 @@ public class OrderServImpl implements OrderServ {
             }
             orderDao.modifyOrder(order);
             // 退还优惠券
-            couponServ.setCouponUsed(order.getCouponId(), false);
+            Coupon coupon = order.getCoupon();
+            if (coupon != null) {
+                couponServ.setCouponUsed(coupon.getCouponId(), false);
+            }
         }
     }
 }

@@ -3,7 +3,6 @@ package edu.nju.ticketbooking.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +12,7 @@ public class Venue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vid", updatable = false)
-    private int id;
+    private int venueId;
 
     @Column(name = "vname")
     private String name;
@@ -31,9 +30,9 @@ public class Venue {
     @Column(name = "is_approved")
     private boolean isApproved = false;     // 场馆申请是否通过
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "vid")
-    private List<VenueSeatType> seatTypes = new ArrayList<>();
+    private List<VenueSeatType> seatTypes;
 
     public Venue() {
 
@@ -46,12 +45,12 @@ public class Venue {
         this.description = description;
     }
 
-    public int getId() {
-        return id;
+    public int getVenueId() {
+        return venueId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setVenueId(int id) {
+        this.venueId = id;
     }
 
     public String getName() {

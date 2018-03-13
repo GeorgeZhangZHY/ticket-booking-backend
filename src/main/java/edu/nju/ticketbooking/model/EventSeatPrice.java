@@ -7,9 +7,9 @@ import javax.persistence.*;
 public class EventSeatPrice {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "espid", updatable = false)
-    private int id;
+    private int eventSeatPriceId;
 
     @Column(name = "eid")
     private int eventId;
@@ -33,12 +33,12 @@ public class EventSeatPrice {
         this.price = price;
     }
 
-    public int getId() {
-        return id;
+    public int getEventSeatPriceId() {
+        return eventSeatPriceId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setEventSeatPriceId(int id) {
+        this.eventSeatPriceId = id;
     }
 
     public int getEventId() {

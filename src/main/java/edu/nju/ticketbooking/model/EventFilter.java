@@ -8,7 +8,7 @@ public class EventFilter {
 
     private EventFilterType type;
 
-    private Object condition;
+    private Object condition;  // 若type为TYPE，则为EventType类型；若type为VENUE，则为int类型(venueId)
 
     private int pageNum, pageSize;
 

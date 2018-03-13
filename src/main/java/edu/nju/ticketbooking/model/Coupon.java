@@ -1,5 +1,7 @@
 package edu.nju.ticketbooking.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -11,9 +13,9 @@ import java.sql.Timestamp;
 public class Coupon {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cid", updatable = false)
-    private int id;
+    private int couponId;
 
     @Column(name = "ctid")
     private int couponTypeId;
@@ -21,8 +23,9 @@ public class Coupon {
     @Column(name = "uid")
     private int userId;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "get_time")
-    private Timestamp getTime;
+    private Timestamp getTime = new Timestamp(System.currentTimeMillis());
 
     @Column(name = "is_used")
     private boolean isUsed;
@@ -41,12 +44,12 @@ public class Coupon {
         this.isUsed = false;
     }
 
-    public int getId() {
-        return id;
+    public int getCouponId() {
+        return couponId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCouponId(int id) {
+        this.couponId = id;
     }
 
     public int getCouponTypeId() {
