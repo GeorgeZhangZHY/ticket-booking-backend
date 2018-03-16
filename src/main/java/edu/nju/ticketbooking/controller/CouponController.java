@@ -22,7 +22,10 @@ public class CouponController {
     }
 
     @PostMapping(value = "/coupon")
-    public Coupon acquireCoupon(@RequestParam(value = "userId") int userId, @RequestParam(value = "couponTypeId") int couponTypeId) {
+    public Coupon acquireCoupon(
+            @RequestParam(value = "userId") int userId,
+            @RequestParam(value = "couponTypeId") int couponTypeId
+    ) {
         return couponServ.acquireCoupon(userId, couponTypeId);
     }
 

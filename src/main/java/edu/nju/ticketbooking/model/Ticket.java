@@ -1,7 +1,12 @@
 package edu.nju.ticketbooking.model;
 
+import edu.nju.ticketbooking.constant.TicketState;
+
 import javax.persistence.*;
 
+/**
+ * 在购买时才创建
+ */
 @Entity
 @Table(name = "tickets")
 public class Ticket {
@@ -26,15 +31,12 @@ public class Ticket {
     @Column(name = "price")
     private double price;
 
-    @Column(name = "is_checked")
-    private boolean isChecked;
-
     @Column(name = "is_online")
-    private boolean isOnline;   // false表示为线下非会员购买
+    private boolean isOnline = true;   // false表示为线下非会员购买
 
-//    @ManyToOne
-//    @JoinColumn(name = "oid", updatable = false, insertable = false)
-//    private Order order;
+    @Column(name = "tstate")
+    @Enumerated(value = EnumType.STRING)
+    private TicketState ticketState = TicketState.NEW;
 
     public Ticket() {
 
@@ -88,14 +90,6 @@ public class Ticket {
         this.columnNum = columnNum;
     }
 
-//    public Order getOrder() {
-//        return order;
-//    }
-//
-//    public void setOrder(Order order) {
-//        this.order = order;
-//    }
-
     public double getPrice() {
         return price;
     }
@@ -104,11 +98,19 @@ public class Ticket {
         this.price = price;
     }
 
-    public boolean getIsChecked() {
-        return isChecked;
+    public boolean getIsOnline() {
+        return isOnline;
     }
 
-    public void setChecked(boolean checked) {
-        isChecked = checked;
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
+
+    public TicketState getTicketState() {
+        return ticketState;
+    }
+
+    public void setTicketState(TicketState ticketState) {
+        this.ticketState = ticketState;
     }
 }

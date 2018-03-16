@@ -23,4 +23,9 @@ public class TicketDaoImpl implements TicketDao {
         return (Ticket) HibernateUtil.getById(ticketId, Ticket.class);
     }
 
+    @Override
+    public void deleteTicket(int ticketId) {
+        HibernateUtil.deleteById(ticketId, Ticket.class);
+    }
+
 }

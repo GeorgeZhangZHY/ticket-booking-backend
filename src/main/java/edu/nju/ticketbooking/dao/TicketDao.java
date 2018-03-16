@@ -9,4 +9,6 @@ public interface TicketDao {
     Ticket modifyTicket(Ticket modifiedTicket);
 
     Ticket getTicket(int ticketId);
+
+    void deleteTicket(int ticketId);
 }

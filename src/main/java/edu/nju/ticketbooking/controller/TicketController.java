@@ -12,16 +12,12 @@ public class TicketController {
     private TicketServ ticketServ;
 
     /**
-     * 用于现场非会员购票
+     * 用于线下非会员购票
+     * 其余情况均通过Order接口购票
      */
     @PostMapping(value = "/ticket")
     public Ticket addNewTicket(@RequestBody Ticket newTicket) {
         return ticketServ.addNewTicket(newTicket);
-    }
-
-    @PutMapping(value = "/ticket")
-    public Ticket modifyTicket(@RequestBody Ticket modifiedTicket) {
-        return ticketServ.modifyTicket(modifiedTicket);
     }
 
     @PutMapping(value = "/ticket/check")

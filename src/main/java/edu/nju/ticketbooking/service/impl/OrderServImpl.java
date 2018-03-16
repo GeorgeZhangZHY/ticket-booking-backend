@@ -1,6 +1,7 @@
 package edu.nju.ticketbooking.service.impl;
 
 import edu.nju.ticketbooking.constant.OrderState;
+import edu.nju.ticketbooking.constant.TicketState;
 import edu.nju.ticketbooking.dao.OrderDao;
 import edu.nju.ticketbooking.model.Coupon;
 import edu.nju.ticketbooking.model.Order;
@@ -44,15 +45,19 @@ public class OrderServImpl implements OrderServ {
     }
 
     /**
-     * 将已经举行的活动对应的订单设为已完成
+     * 将已经举行的活动对应的已付款订单设为已完成
      * 同时为用户增加积分
      */
-    private void completePaidOrder(Order order) {
+    private void completeHostedEventOrder(Order order) {
         if (order.getState() == OrderState.PAID) {
-            order.setState(OrderState.COMPLETED);
-            double scoreToAdd = order.getTotalPrice() / 10;
-            userServ.modifyScore(order.getUserId(), scoreToAdd, true);
-            orderDao.modifyOrder(order);
+            long hostTime = order.getEvent().getHostTime().getTime(),
+                    now = System.currentTimeMillis();
+            if (now >= hostTime) {
+                order.setState(OrderState.COMPLETED);
+                double scoreToAdd = order.getTotalPrice() / 10;
+                userServ.modifyScore(order.getUserId(), scoreToAdd, true);
+                orderDao.modifyOrder(order);
+            }
         }
     }
 
@@ -74,7 +79,7 @@ public class OrderServImpl implements OrderServ {
     private List<Order> processOrders(List<Order> orders) {
         for (Order order : orders) {
             cancelExpiredUnpaidOrder(order);
-            completePaidOrder(order);
+            completeHostedEventOrder(order);
         }
         return orders;
     }
@@ -132,12 +137,20 @@ public class OrderServImpl implements OrderServ {
         OrderState prevState = order.getState();
         if (prevState == OrderState.PAID || prevState == OrderState.UNPAID) {
             order.setState(OrderState.CANCELED);
+            // 取消订票记录
+            List<Ticket> tickets = order.getTickets();
+            for (Ticket ticket : tickets) {
+                ticket.setTicketState(TicketState.CANCELED);
+                ticketServ.modifyTicket(ticket);
+            }
+
             if (prevState == OrderState.PAID) {
                 // 退款
                 double refund = calcRefund(order);
                 userServ.modifyBalance(order.getUserId(), refund);
             }
             orderDao.modifyOrder(order);
+
             // 退还优惠券
             Coupon coupon = order.getCoupon();
             if (coupon != null) {

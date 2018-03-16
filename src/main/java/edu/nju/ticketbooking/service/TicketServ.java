@@ -12,4 +12,5 @@ public interface TicketServ {
     Ticket modifyTicket(Ticket modifiedTicket);
 
     void checkTicket(int ticketId);
+
 }

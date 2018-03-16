@@ -1,5 +1,7 @@
 package edu.nju.ticketbooking.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +16,7 @@ public class Manager {
     @Column(name = "mname")
     private String name;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "mpassword")
     private String password;
 

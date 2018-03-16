@@ -36,9 +36,6 @@ public class Order {
     @Column(name = "create_time")
     private Timestamp createTime = new Timestamp(System.currentTimeMillis());
 
-    @Column(name = "is_canceled")
-    private boolean isCanceled = false;
-
     @ManyToOne
     @JoinColumn(name = "eid", insertable = false, updatable = false)
     private Event event;
@@ -115,14 +112,6 @@ public class Order {
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
-    }
-
-    public boolean getIsCanceled() {
-        return isCanceled;
-    }
-
-    public void setCanceled(boolean canceled) {
-        isCanceled = canceled;
     }
 
     public Coupon getCoupon() {

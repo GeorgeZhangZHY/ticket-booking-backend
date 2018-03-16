@@ -1,5 +1,6 @@
 package edu.nju.ticketbooking.service.impl;
 
+import edu.nju.ticketbooking.constant.TicketState;
 import edu.nju.ticketbooking.dao.TicketDao;
 import edu.nju.ticketbooking.model.Ticket;
 import edu.nju.ticketbooking.service.TicketServ;
@@ -25,7 +26,8 @@ public class TicketServImpl implements TicketServ {
     @Override
     public void checkTicket(int ticketId) {
         Ticket ticket = ticketDao.getTicket(ticketId);
-        ticket.setChecked(true);
+        ticket.setTicketState(TicketState.CHECKED);
         ticketDao.modifyTicket(ticket);
     }
+
 }
