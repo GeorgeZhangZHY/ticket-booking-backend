@@ -9,6 +9,8 @@ import edu.nju.ticketbooking.util.HibernateUtil;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -31,19 +33,24 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public List<Event> getEventList(EventFilterType filter, Object condition, int pageSize, int pageNum, Timestamp fromTime, Timestamp toTime) {
-        String queryTemplate = "FROM Event WHERE %s = ? AND hostTime >= ? AND hostTime <= ? ORDER BY hostTime ASC";
-        String mainCondition = null;
+        String queryTemplate = "FROM Event WHERE hostTime >= ? AND hostTime <= ? %s ORDER BY hostTime ASC";
+        String constraint = "";
+        ArrayList params = new ArrayList(Arrays.asList(fromTime, toTime));
         switch (filter) {
             case TYPE:
-                mainCondition = "eventType";
                 condition = EventType.valueOf((String) condition);    // 手动cast，避免hibernate报错
+                if (condition != EventType.ALL) {
+                    constraint = "AND eventType = ?";
+                    params.add(condition);
+                }
                 break;
             case VENUE:
-                mainCondition = "venueId";
+                constraint = "AND venueId = ?";
+                params.add(condition);
                 break;
         }
-        String query = String.format(queryTemplate, mainCondition);
-        return HibernateUtil.getPageByQuery(query, new Object[]{condition, fromTime, toTime}, new Page(pageSize, pageNum));
+        String query = String.format(queryTemplate, constraint);
+        return HibernateUtil.getPageByQuery(query, params.toArray(), new Page(pageSize, pageNum));
     }
 
 }

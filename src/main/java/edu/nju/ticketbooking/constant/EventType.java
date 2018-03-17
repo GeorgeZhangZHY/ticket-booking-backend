@@ -1,5 +1,5 @@
 package edu.nju.ticketbooking.constant;
 
 public enum EventType {
-    MUSIC, OPERA, SPORTS, DANCE, MOVIE
+    ALL, MUSIC, OPERA, SPORTS, DANCE, MOVIE
 }
