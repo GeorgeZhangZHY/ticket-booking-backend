@@ -5,6 +5,8 @@ import edu.nju.ticketbooking.model.Ticket;
 import edu.nju.ticketbooking.util.HibernateUtil;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class TicketDaoImpl implements TicketDao {
 
@@ -26,6 +28,12 @@ public class TicketDaoImpl implements TicketDao {
     @Override
     public void deleteTicket(int ticketId) {
         HibernateUtil.deleteById(ticketId, Ticket.class);
+    }
+
+    @Override
+    public List<Ticket> getTicketsByEventSeat(int eventId, int venueSeatTypeId) {
+        String query = "FROM Ticket WHERE eventId = ? AND venueSeatTypeId = ?";
+        return HibernateUtil.getListByQuery(query, new Object[]{eventId, venueSeatTypeId});
     }
 
 }

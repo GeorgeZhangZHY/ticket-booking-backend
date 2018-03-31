@@ -23,10 +23,10 @@ public class Ticket {
     private int venueSeatTypeId;
 
     @Column(name = "row_num")
-    private int rowNum;
+    private int rowNum;  // 从0开始
 
     @Column(name = "col_num")
-    private int columnNum;
+    private int columnNum;  // 从0开始
 
     @Column(name = "price")
     private double price;
