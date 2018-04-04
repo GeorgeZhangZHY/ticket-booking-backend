@@ -4,10 +4,13 @@ import edu.nju.ticketbooking.dao.VenueDao;
 import edu.nju.ticketbooking.model.Venue;
 import edu.nju.ticketbooking.service.VenueServ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service
-public class VenueServImpl implements VenueServ {
+@Service(value = "venueServ")
+public class VenueServImpl implements VenueServ, UserDetailsService {
 
     @Autowired
     private VenueDao venueDao;
@@ -32,5 +35,14 @@ public class VenueServImpl implements VenueServ {
     @Override
     public Venue modifyVenue(Venue modifiedVenue) {
         return venueDao.modifyVenue(modifiedVenue);
+    }
+
+    /**
+     * 用于登录
+     */
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        Venue venue = venueDao.getVenue(Integer.parseInt(s));
+        return venue != null && venue.getIsApproved() ? venue : null;
     }
 }

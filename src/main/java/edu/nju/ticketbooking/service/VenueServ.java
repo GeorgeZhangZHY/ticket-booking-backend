@@ -8,8 +8,6 @@ public interface VenueServ {
 
     void setVenueApplicationApproved(int venueId, boolean isApproved);
 
-    // login/logout
-
     Venue getVenue(int venueId);
 
     /**

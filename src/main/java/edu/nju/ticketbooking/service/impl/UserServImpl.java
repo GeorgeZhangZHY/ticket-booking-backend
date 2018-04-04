@@ -5,10 +5,13 @@ import edu.nju.ticketbooking.model.User;
 import edu.nju.ticketbooking.service.UserServ;
 import edu.nju.ticketbooking.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service
-public class UserServImpl implements UserServ {
+@Service(value = "userServ")
+public class UserServImpl implements UserServ, UserDetailsService {
 
     @Autowired
     private UserDao userDao;
@@ -42,11 +45,6 @@ public class UserServImpl implements UserServ {
         return user != null && user.getIsActivated() ? user : null;
     }
 
-    @Override
-    public User login(String email, String password) {
-        // todo
-        return null;
-    }
 
     @Override
     public void deleteUser(int userId) {
@@ -114,5 +112,14 @@ public class UserServImpl implements UserServ {
         int userLevel = user.getLevel();
         double discountIncrement = 0.03;
         return 1.0 - (userLevel - 1) * discountIncrement;
+    }
+
+    /**
+     * 用于登录
+     */
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        User user = userDao.getUserByEmail(s);
+        return user != null && user.getIsActivated() ? user : null;
     }
 }

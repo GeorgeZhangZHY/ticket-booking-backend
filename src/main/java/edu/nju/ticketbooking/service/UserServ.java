@@ -9,10 +9,6 @@ public interface UserServ {
      */
     User getUser(int userId);
 
-    User login(String email, String password);
-
-//    boolean logout();
-
     void deleteUser(int userId);
 
     void activateUser(int userId);

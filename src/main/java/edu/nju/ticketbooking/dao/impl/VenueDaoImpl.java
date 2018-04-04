@@ -22,4 +22,5 @@ public class VenueDaoImpl implements VenueDao {
     public Venue addNewVenue(Venue newVenue) {
         return (Venue) HibernateUtil.addNew(newVenue, Venue.class);
     }
+
 }

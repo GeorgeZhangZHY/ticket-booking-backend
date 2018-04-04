@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 public class ManagerDaoImpl implements ManagerDao {
 
     @Override
-    public Manager getManger(int managerId) {
+    public Manager getManager(int managerId) {
         return (Manager) HibernateUtil.getById(managerId, Manager.class);
     }
+
 }
