@@ -49,7 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         AuthenticationManager venueAuthManger = new ProviderManager(Collections.singletonList(venueAuthProvider));
         AuthenticationManager mangerAuthManager = new ProviderManager(Collections.singletonList(managerAuthProvider));
 
-        http.cors().and().csrf().disable()
+        http.cors().and()
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
@@ -61,6 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JWTLoginFilter(venueAuthManger, Role.VENUE))
                 .addFilter(new JWTLoginFilter(mangerAuthManager, Role.MANAGER))
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()));
+
     }
 
 }

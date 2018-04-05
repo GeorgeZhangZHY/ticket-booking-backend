@@ -1,5 +1,6 @@
 package edu.nju.ticketbooking.filter;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.nju.ticketbooking.constant.JWTSecret;
 import edu.nju.ticketbooking.constant.Role;
@@ -13,7 +14,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -54,14 +54,20 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
         Object info;
         if ((info = req.getAttribute("authInfo")) != null) {
             // 登录信息已由前面的filter读取并往后传递
-            authInfo = (AuthenticationInfo) info;
+            if (info.getClass() == AuthenticationInfo.class) {
+                authInfo = (AuthenticationInfo) info;
+            }
         } else {
-            authInfo = new ObjectMapper().readValue(req.getInputStream(), AuthenticationInfo.class);
-            req.setAttribute("authInfo", authInfo);
+            try {
+                authInfo = new ObjectMapper().readValue(req.getInputStream(), AuthenticationInfo.class);
+                req.setAttribute("authInfo", authInfo);
+            } catch (JsonMappingException e) {
+                req.setAttribute("authInfo", "No Auth");
+            }
         }
 
         // 只校验自己对应角色的输入，否则跳过
-        if (this.role == authInfo.getRole()) {
+        if (authInfo != null && this.role == authInfo.getRole()) {
             super.doFilter(req, res, chain);
         } else {
             chain.doFilter(req, res);
@@ -88,7 +94,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                                             Authentication auth) throws IOException, ServletException {
         Object principal = auth.getPrincipal();
         JwtBuilder builder = Jwts.builder()
-                .setSubject(((UserDetails) auth.getPrincipal()).getUsername());
+                .setSubject(role.name());
         addClaims(builder, principal);
         String token = builder.setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000))
                 .signWith(SignatureAlgorithm.HS512, JWTSecret.SECRET)

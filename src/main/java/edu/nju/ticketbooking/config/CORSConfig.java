@@ -16,6 +16,7 @@ public class CORSConfig {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:3000")
                         .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
+                        .exposedHeaders("Authorization")
                         .allowCredentials(false).maxAge(3600);
             }
         };
