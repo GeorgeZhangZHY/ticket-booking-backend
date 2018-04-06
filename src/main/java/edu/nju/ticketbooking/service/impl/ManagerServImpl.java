@@ -1,6 +1,7 @@
 package edu.nju.ticketbooking.service.impl;
 
 import edu.nju.ticketbooking.dao.ManagerDao;
+import edu.nju.ticketbooking.model.Manager;
 import edu.nju.ticketbooking.service.ManagerServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,4 +23,8 @@ public class ManagerServImpl implements ManagerServ, UserDetailsService {
         return managerDao.getManager(Integer.parseInt(s));
     }
 
+    @Override
+    public Manager getManager(int managerId) {
+        return managerDao.getManager(managerId);
+    }
 }

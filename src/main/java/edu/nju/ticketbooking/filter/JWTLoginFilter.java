@@ -95,36 +95,26 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
         Object principal = auth.getPrincipal();
         JwtBuilder builder = Jwts.builder()
                 .setSubject(role.name());
-        addClaims(builder, principal);
+        addId(builder, principal);
         String token = builder.setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000))
                 .signWith(SignatureAlgorithm.HS512, JWTSecret.SECRET)
                 .compact();
         res.addHeader("Authorization", "Bearer " + token);
     }
 
-    private void addClaims(JwtBuilder builder, Object principal) {
+    private void addId(JwtBuilder builder, Object principal) {
+        int id = 0;
         if (principal.getClass() == User.class) {
             User user = (User) principal;
-            builder.claim("userId", user.getUserId())
-                    .claim("email", user.getEmail())
-                    .claim("name", user.getName())
-                    .claim("gender", user.getGender())
-                    .claim("level", user.getLevel())
-                    .claim("score", user.getScore())
-                    .claim("balance", user.getBalance())
-                    .claim("accumulatedScore", user.getAccumulatedScore());
+            id = user.getUserId();
         } else if (principal.getClass() == Venue.class) {
             Venue venue = (Venue) principal;
-            builder.claim("venueId", venue.getVenueId())
-                    .claim("name", venue.getName())
-                    .claim("address", venue.getAddress())
-                    .claim("description", venue.getDescription())
-                    .claim("seatTypes", venue.getSeatTypes());
+            id = venue.getVenueId();
         } else if (principal.getClass() == Manager.class) {
             Manager manager = (Manager) principal;
-            builder.claim("managerId", manager.getManagerId())
-                    .claim("name", manager.getName());
+            id = manager.getManagerId();
         }
+        builder.claim("id", id);
     }
 
 }

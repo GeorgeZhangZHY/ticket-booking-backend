@@ -1,5 +1,9 @@
 package edu.nju.ticketbooking.service;
 
+import edu.nju.ticketbooking.model.Manager;
+
 public interface ManagerServ {
-    // 故意留空
+
+    Manager getManager(int managerId);
+
 }

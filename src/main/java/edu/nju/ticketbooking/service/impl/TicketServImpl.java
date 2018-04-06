@@ -43,7 +43,9 @@ public class TicketServImpl implements TicketServ {
         int[][] map = new int[seatType.getTotalRowNum()][seatType.getTotalColumnNum()];
         List<Ticket> soldTickets = ticketDao.getTicketsByEventSeat(eventId, venueSeatTypeId);
         for (Ticket ticket : soldTickets) {
-            map[ticket.getRowNum()][ticket.getColumnNum()] = 1;
+            if (ticket.getTicketState() != TicketState.CANCELED) {
+                map[ticket.getRowNum()][ticket.getColumnNum()] = 1;
+            }
         }
         return map;
     }

@@ -38,6 +38,10 @@ public class Ticket {
     @Enumerated(value = EnumType.STRING)
     private TicketState ticketState = TicketState.NEW;
 
+    @ManyToOne
+    @JoinColumn(name = "vstid", insertable = false, updatable = false)
+    private VenueSeatType venueSeatType;
+
     public Ticket() {
 
     }
@@ -112,5 +116,13 @@ public class Ticket {
 
     public void setTicketState(TicketState ticketState) {
         this.ticketState = ticketState;
+    }
+
+    public VenueSeatType getVenueSeatType() {
+        return venueSeatType;
+    }
+
+    public void setVenueSeatType(VenueSeatType venueSeatType) {
+        this.venueSeatType = venueSeatType;
     }
 }
