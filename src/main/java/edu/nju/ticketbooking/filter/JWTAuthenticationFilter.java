@@ -1,6 +1,7 @@
 package edu.nju.ticketbooking.filter;
 
 import edu.nju.ticketbooking.constant.JWTSecret;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,14 +43,18 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader("Authorization");
         if (token != null) {
             // 解析token
-            String subject = Jwts.parser()
-                    .setSigningKey(JWTSecret.SECRET)
-                    .parseClaimsJws(token.replace("Bearer ", ""))
-                    .getBody()
-                    .getSubject();
+            try {
+                String subject = Jwts.parser()
+                        .setSigningKey(JWTSecret.SECRET)
+                        .parseClaimsJws(token.replace("Bearer ", ""))
+                        .getBody()
+                        .getSubject();
 
-            if (subject != null) {
-                return new UsernamePasswordAuthenticationToken(subject, null, new ArrayList<>());
+                if (subject != null) {
+                    return new UsernamePasswordAuthenticationToken(subject, null, new ArrayList<>());
+                }
+            } catch (ExpiredJwtException e) {
+                return null;
             }
         }
         return null;

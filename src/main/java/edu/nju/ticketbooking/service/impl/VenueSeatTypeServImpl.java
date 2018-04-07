@@ -23,7 +23,9 @@ public class VenueSeatTypeServImpl implements VenueSeatTypeServ {
     }
 
     @Override
-    public void deleteVenueSeatType(int venueSeatTypeId) {
-        venueSeatTypeDao.deleteVenueSeatType(venueSeatTypeId);
+    public void setVenueSeatTypeDeleted(int venueSeatTypeId) {
+        VenueSeatType seatType = venueSeatTypeDao.getVenueSeatType(venueSeatTypeId);
+        seatType.setDeleted(true);
+        venueSeatTypeDao.modifyVenueSeatType(seatType);
     }
 }

@@ -23,7 +23,7 @@ public class VenueSeatTypeController {
 
     @DeleteMapping(value = "/venueSeatType")
     public void deleteVenueSeatType(@RequestParam(value = "venueSeatTypeId") int venueSeatTypeId) {
-        venueSeatTypeServ.deleteVenueSeatType(venueSeatTypeId);
+        venueSeatTypeServ.setVenueSeatTypeDeleted(venueSeatTypeId);
     }
 
 }

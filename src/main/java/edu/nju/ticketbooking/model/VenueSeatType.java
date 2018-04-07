@@ -26,6 +26,9 @@ public class VenueSeatType {
     @Column(name = "total_col")
     private int totalColumnNum;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     public VenueSeatType() {
     }
 
@@ -83,5 +86,13 @@ public class VenueSeatType {
 
     public void setTotalColumnNum(int totalColumnNum) {
         this.totalColumnNum = totalColumnNum;
+    }
+
+    public boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }
