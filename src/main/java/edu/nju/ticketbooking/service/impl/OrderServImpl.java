@@ -1,19 +1,17 @@
 package edu.nju.ticketbooking.service.impl;
 
+import edu.nju.ticketbooking.constant.EventFilterType;
 import edu.nju.ticketbooking.constant.OrderState;
 import edu.nju.ticketbooking.constant.TicketState;
 import edu.nju.ticketbooking.dao.OrderDao;
-import edu.nju.ticketbooking.model.Coupon;
-import edu.nju.ticketbooking.model.Order;
-import edu.nju.ticketbooking.model.Ticket;
-import edu.nju.ticketbooking.service.CouponServ;
-import edu.nju.ticketbooking.service.OrderServ;
-import edu.nju.ticketbooking.service.TicketServ;
-import edu.nju.ticketbooking.service.UserServ;
+import edu.nju.ticketbooking.model.*;
+import edu.nju.ticketbooking.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,32 +29,22 @@ public class OrderServImpl implements OrderServ {
     @Autowired
     private TicketServ ticketServ;
 
-    /**
-     * 自动取消15分钟内未支付的订单
-     */
-    private void cancelExpiredUnpaidOrder(Order order) {
-        if (order.getState() == OrderState.UNPAID) {
-            long timePassed = System.currentTimeMillis() - order.getCreateTime().getTime();
-            int minutesPassed = (int) timePassed / (1000 * 60);
-            if (minutesPassed >= 15) {
-                cancelOrder(order.getOrderId());
-            }
-        }
-    }
+    @Autowired
+    private EventServ eventServ;
 
     /**
-     * 将已经举行的活动对应的已付款订单设为已完成
-     * 同时为用户增加积分
+     * 自动取消15分钟内未支付的订单
+     * 每10秒运行一次
      */
-    private void completeHostedEventOrder(Order order) {
-        if (order.getState() == OrderState.PAID) {
-            long hostTime = order.getEvent().getHostTime().getTime(),
-                    now = System.currentTimeMillis();
-            if (now >= hostTime) {
-                order.setState(OrderState.COMPLETED);
-                double scoreToAdd = order.getTotalPrice() / 10;
-                userServ.modifyScore(order.getUserId(), scoreToAdd, true);
-                orderDao.modifyOrder(order);
+    @Scheduled(fixedRate = 10 * 1000)
+    private void cancelExpiredUnpaidOrder() {
+        for (Order order : orderDao.getAllOrderList()) {
+            if (order.getState() == OrderState.UNPAID) {
+                long timePassed = System.currentTimeMillis() - order.getCreateTime().getTime();
+                int minutesPassed = (int) timePassed / (1000 * 60);
+                if (minutesPassed >= 15) {
+                    cancelOrder(order.getOrderId());
+                }
             }
         }
     }
@@ -76,14 +64,6 @@ public class OrderServImpl implements OrderServ {
         return (totalTicketPrice - couponPrice) * userDiscount;
     }
 
-    private List<Order> processOrders(List<Order> orders) {
-        for (Order order : orders) {
-            cancelExpiredUnpaidOrder(order);
-            completeHostedEventOrder(order);
-        }
-        return orders;
-    }
-
     /**
      * 离活动时间越近，退款越少
      * 6天及以上退100%，4~6天80%，2~4天60%，2天以内40%
@@ -99,8 +79,24 @@ public class OrderServImpl implements OrderServ {
 
     @Override
     public List<Order> getUserOrderList(int userId) {
-        List<Order> orders = orderDao.getUserOrderList(userId);
-        return processOrders(orders);
+        return orderDao.getUserOrderList(userId);
+    }
+
+    @Override
+    public List<Order> getVenueOrderList(int venueId) {
+        List<Event> venueEventList = eventServ.getEventList(new EventFilter(
+                EventFilterType.VENUE,
+                venueId,
+                0,
+                Integer.MAX_VALUE,
+                new Timestamp(0),
+                new Timestamp(System.currentTimeMillis())
+        ));
+        List<Order> orderList = new ArrayList<>();
+        for (Event event : venueEventList) {
+            orderList.addAll(orderDao.getEventOrderList(event.getEventId()));
+        }
+        return orderList;
     }
 
     @Override
@@ -156,6 +152,17 @@ public class OrderServImpl implements OrderServ {
             if (coupon != null) {
                 couponServ.setCouponUsed(coupon.getCouponId(), false);
             }
+        }
+    }
+
+    @Override
+    public void completeOrder(int orderId) {
+        Order order = orderDao.getOrder(orderId);
+        if (order.getState() == OrderState.PAID) {
+            order.setState(OrderState.COMPLETED);
+            double scoreToAdd = order.getTotalPrice() / 10;
+            userServ.modifyScore(order.getUserId(), scoreToAdd, true);
+            orderDao.modifyOrder(order);
         }
     }
 }

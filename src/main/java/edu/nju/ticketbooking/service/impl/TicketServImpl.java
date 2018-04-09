@@ -50,4 +50,9 @@ public class TicketServImpl implements TicketServ {
         return map;
     }
 
+    @Override
+    public List<Ticket> getEventTicketList(int eventId) {
+        return ticketDao.getEventTicketList(eventId);
+    }
+
 }

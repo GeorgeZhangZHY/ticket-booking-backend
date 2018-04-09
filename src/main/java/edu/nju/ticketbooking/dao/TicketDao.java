@@ -12,7 +12,7 @@ public interface TicketDao {
 
     Ticket getTicket(int ticketId);
 
-    void deleteTicket(int ticketId);
-
     List<Ticket> getTicketsByEventSeat(int eventId, int venueSeatTypeId);
+
+    List<Ticket> getEventTicketList(int eventId);
 }

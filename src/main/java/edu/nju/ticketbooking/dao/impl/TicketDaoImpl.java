@@ -25,15 +25,16 @@ public class TicketDaoImpl implements TicketDao {
         return (Ticket) HibernateUtil.getById(ticketId, Ticket.class);
     }
 
-    @Override
-    public void deleteTicket(int ticketId) {
-        HibernateUtil.deleteById(ticketId, Ticket.class);
-    }
 
     @Override
     public List<Ticket> getTicketsByEventSeat(int eventId, int venueSeatTypeId) {
         String query = "FROM Ticket WHERE eventId = ? AND venueSeatTypeId = ?";
         return HibernateUtil.getListByQuery(query, new Object[]{eventId, venueSeatTypeId});
+    }
+
+    @Override
+    public List<Ticket> getEventTicketList(int eventId) {
+        return HibernateUtil.getListByQuery("FROM Ticket WHERE eventId = ?", new Object[]{eventId});
     }
 
 }

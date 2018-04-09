@@ -33,6 +33,9 @@ public class Event {
     @Column(name = "poster_url")
     private String posterUrl;
 
+    @Column(name = "is_hosted")
+    private boolean isHosted;
+
     public Event() {
 
     }
@@ -100,5 +103,13 @@ public class Event {
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
+    }
+
+    public boolean getIsHosted() {
+        return isHosted;
+    }
+
+    public void setHosted(boolean hosted) {
+        isHosted = hosted;
     }
 }

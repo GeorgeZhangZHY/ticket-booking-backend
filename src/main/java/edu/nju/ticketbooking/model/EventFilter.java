@@ -14,6 +14,18 @@ public class EventFilter {
 
     private Timestamp fromTime, toTime;
 
+    public EventFilter() {
+    }
+
+    public EventFilter(EventFilterType type, Object condition, int pageNum, int pageSize, Timestamp fromTime, Timestamp toTime) {
+        this.type = type;
+        this.condition = condition;
+        this.pageNum = pageNum;
+        this.pageSize = pageSize;
+        this.fromTime = fromTime;
+        this.toTime = toTime;
+    }
+
     public EventFilterType getType() {
         return type;
     }

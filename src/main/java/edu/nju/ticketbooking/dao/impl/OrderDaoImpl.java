@@ -29,4 +29,15 @@ public class OrderDaoImpl implements OrderDao {
     public Order getOrder(int orderId) {
         return (Order) HibernateUtil.getById(orderId, Order.class);
     }
+
+    @Override
+    public List<Order> getEventOrderList(int eventId) {
+        return HibernateUtil.getListByQuery("FROM Order WHERE eventId = ?", new Object[]{eventId});
+    }
+
+    @Override
+    public List<Order> getAllOrderList() {
+        return HibernateUtil.getListByQuery("FROM Order", null);
+    }
+
 }

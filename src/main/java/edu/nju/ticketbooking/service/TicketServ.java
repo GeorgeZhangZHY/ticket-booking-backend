@@ -2,6 +2,8 @@ package edu.nju.ticketbooking.service;
 
 import edu.nju.ticketbooking.model.Ticket;
 
+import java.util.List;
+
 public interface TicketServ {
 
     /**
@@ -17,5 +19,7 @@ public interface TicketServ {
      * 按照座位行列形式获取某次活动某种座位类型的购票情况，1表示已售出，0表示未售出
      */
     int[][] getAvailableSeats(int eventId, int venueSeatTypeId);
+
+    List<Ticket> getEventTicketList(int eventId);
 
 }

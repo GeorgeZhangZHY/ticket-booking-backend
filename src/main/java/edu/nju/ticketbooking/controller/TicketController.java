@@ -5,6 +5,8 @@ import edu.nju.ticketbooking.service.TicketServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class TicketController {
 
@@ -17,6 +19,11 @@ public class TicketController {
             @RequestParam(value = "venueSeatTypeId") int venueSeatTypeId
     ) {
         return ticketServ.getAvailableSeats(eventId, venueSeatTypeId);
+    }
+
+    @GetMapping(value = "/ticket")
+    public List<Ticket> getEventTicketList(@RequestParam(value = "eventId") int eventId) {
+        return ticketServ.getEventTicketList(eventId);
     }
 
 

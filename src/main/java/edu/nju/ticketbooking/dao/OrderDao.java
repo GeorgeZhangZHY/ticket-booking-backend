@@ -13,4 +13,8 @@ public interface OrderDao {
     Order modifyOrder(Order modifiedOrder);
 
     Order getOrder(int orderId);
+
+    List<Order> getEventOrderList(int eventId);
+
+    List<Order> getAllOrderList();
 }

@@ -5,6 +5,8 @@ import edu.nju.ticketbooking.service.VenueServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class VenueController {
 
@@ -27,5 +29,10 @@ public class VenueController {
             @RequestParam(value = "isApproved") boolean isApproved) {
         venueServ.setVenueApplicationApproved(venueId, isApproved);
         return isApproved;
+    }
+
+    @GetMapping(value = "/venue/applying")
+    public List<Venue> getApplyingVenueList() {
+        return venueServ.getApplyingVenueList();
     }
 }

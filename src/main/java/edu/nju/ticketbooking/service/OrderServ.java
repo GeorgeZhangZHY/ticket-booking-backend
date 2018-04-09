@@ -8,10 +8,14 @@ public interface OrderServ {
 
     List<Order> getUserOrderList(int userId);
 
+    List<Order> getVenueOrderList(int venueId);
+
     Order addNewOrder(Order newOrder);
 
     boolean payOrder(int orderId);
 
     void cancelOrder(int orderId);
+
+    void completeOrder(int orderId);
 
 }

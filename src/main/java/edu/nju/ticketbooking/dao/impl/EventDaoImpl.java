@@ -53,4 +53,9 @@ public class EventDaoImpl implements EventDao {
         return HibernateUtil.getPageByQuery(query, params.toArray(), new Page(pageSize, pageNum));
     }
 
+    @Override
+    public List<Event> getAllEventList() {
+        return HibernateUtil.getListByQuery("FROM Event", null);
+    }
+
 }

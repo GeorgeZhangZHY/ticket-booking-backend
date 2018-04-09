@@ -2,6 +2,7 @@ package edu.nju.ticketbooking.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.nju.ticketbooking.constant.VenueApplyState;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,8 +34,12 @@ public class Venue implements UserDetails {
     @Column(name = "vdesc")
     private String description;
 
-    @Column(name = "is_approved")
-    private boolean isApproved = false;     // 场馆申请是否通过
+    @Column(name = "profit")
+    private double profit;   // 累计收益
+
+    @Column(name = "state")
+    @Enumerated(value = EnumType.STRING)
+    private VenueApplyState state = VenueApplyState.APPLYING;     // 场馆申请是否通过
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "vid")
@@ -130,19 +135,27 @@ public class Venue implements UserDetails {
         this.description = description;
     }
 
-    public boolean getIsApproved() {
-        return isApproved;
-    }
-
-    public void setApproved(boolean approved) {
-        isApproved = approved;
-    }
-
     public List<VenueSeatType> getSeatTypes() {
         return seatTypes;
     }
 
     public void setSeatTypes(List<VenueSeatType> seatTypes) {
         this.seatTypes = seatTypes;
+    }
+
+    public double getProfit() {
+        return profit;
+    }
+
+    public void setProfit(double profit) {
+        this.profit = profit;
+    }
+
+    public VenueApplyState getState() {
+        return state;
+    }
+
+    public void setState(VenueApplyState state) {
+        this.state = state;
     }
 }

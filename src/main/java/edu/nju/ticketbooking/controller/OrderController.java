@@ -18,6 +18,11 @@ public class OrderController {
         return orderServ.getUserOrderList(userId);
     }
 
+    @GetMapping(value = "/order/venue")
+    List<Order> getVenueOrderList(@RequestParam(value = "venueId") int venueId) {
+        return orderServ.getVenueOrderList(venueId);
+    }
+
     @PostMapping(value = "/order")
     public Order addNewOrder(@RequestBody Order order) {
         return orderServ.addNewOrder(order);

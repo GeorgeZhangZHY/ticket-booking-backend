@@ -16,4 +16,5 @@ public interface EventDao {
 
     List<Event> getEventList(EventFilterType filter, Object condition, int pageSize, int pageNum, Timestamp fromTime, Timestamp toTime);
 
+    List<Event> getAllEventList();
 }
