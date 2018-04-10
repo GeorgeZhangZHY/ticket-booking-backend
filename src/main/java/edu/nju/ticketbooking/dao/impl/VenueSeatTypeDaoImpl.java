@@ -23,4 +23,9 @@ public class VenueSeatTypeDaoImpl implements VenueSeatTypeDao {
         return (VenueSeatType) HibernateUtil.saveModified(modifiedVenueSeatType);
     }
 
+    @Override
+    public void deleteVenueSeatType(int venueSeatTypeId) {
+        HibernateUtil.deleteById(venueSeatTypeId, VenueSeatType.class);
+    }
+
 }

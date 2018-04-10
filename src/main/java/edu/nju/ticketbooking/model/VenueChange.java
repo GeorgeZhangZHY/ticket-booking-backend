@@ -36,6 +36,10 @@ public class VenueChange {
     @Column(name = "new_vname")
     private String newName;
 
+    @ManyToOne
+    @JoinColumn(name = "vid", insertable = false, updatable = false)
+    private Venue venue;
+
     public VenueChange() {
     }
 
@@ -101,5 +105,13 @@ public class VenueChange {
 
     public void setNewName(String newName) {
         this.newName = newName;
+    }
+
+    public Venue getVenue() {
+        return venue;
+    }
+
+    public void setVenue(Venue venue) {
+        this.venue = venue;
     }
 }

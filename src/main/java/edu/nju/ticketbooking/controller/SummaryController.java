@@ -17,8 +17,8 @@ public class SummaryController {
     private SummaryServ summaryServ;
 
     @GetMapping(value = "/summary")
-    public List<Summary> getUnhandledSummaryList() {
-        return summaryServ.getUnhandledSummaryList();
+    public List<Summary> getAllSummaryList() {
+        return summaryServ.getAllSummaryList();
     }
 
     @PutMapping(value = "/summary")

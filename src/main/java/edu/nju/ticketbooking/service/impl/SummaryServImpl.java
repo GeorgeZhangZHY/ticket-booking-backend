@@ -20,8 +20,8 @@ public class SummaryServImpl implements SummaryServ {
     private VenueServ venueServ;
 
     @Override
-    public List<Summary> getUnhandledSummaryList() {
-        return summaryDao.getUnhandledSummaryList();
+    public List<Summary> getAllSummaryList() {
+        return summaryDao.getAllSummaryList();
     }
 
     @Override

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class OrderServImpl implements OrderServ {
@@ -38,6 +39,7 @@ public class OrderServImpl implements OrderServ {
      */
     @Scheduled(fixedRate = 10 * 1000)
     private void cancelExpiredUnpaidOrder() {
+        System.out.println("Running: cancelExpiredUnpaidOrder");
         for (Order order : orderDao.getAllOrderList()) {
             if (order.getState() == OrderState.UNPAID) {
                 long timePassed = System.currentTimeMillis() - order.getCreateTime().getTime();
@@ -50,7 +52,7 @@ public class OrderServImpl implements OrderServ {
     }
 
     private double calcOrderPrice(Order order) {
-        List<Ticket> tickets = order.getTickets();
+        Set<Ticket> tickets = order.getTickets();
         double totalTicketPrice = 0;
         for (Ticket ticket : tickets) {
             totalTicketPrice += ticket.getPrice();
@@ -134,7 +136,7 @@ public class OrderServImpl implements OrderServ {
         if (prevState == OrderState.PAID || prevState == OrderState.UNPAID) {
             order.setState(OrderState.CANCELED);
             // 取消订票记录
-            List<Ticket> tickets = order.getTickets();
+            Set<Ticket> tickets = order.getTickets();
             for (Ticket ticket : tickets) {
                 ticket.setTicketState(TicketState.CANCELED);
                 ticketServ.modifyTicket(ticket);

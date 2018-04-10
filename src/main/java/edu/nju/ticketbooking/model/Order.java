@@ -5,7 +5,7 @@ import edu.nju.ticketbooking.constant.OrderState;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.Set;
 
 /**
  * 优惠券、会员等级优惠等仅针对Order进行计算
@@ -41,7 +41,7 @@ public class Order {
     private Event event;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Ticket> tickets;
+    private Set<Ticket> tickets;
 
     @OneToOne
     @JoinColumn(name = "cid", unique = true, insertable = false, updatable = false)
@@ -106,11 +106,11 @@ public class Order {
         this.createTime = createTime;
     }
 
-    public List<Ticket> getTickets() {
+    public Set<Ticket> getTickets() {
         return tickets;
     }
 
-    public void setTickets(List<Ticket> tickets) {
+    public void setTickets(Set<Ticket> tickets) {
         this.tickets = tickets;
     }
 

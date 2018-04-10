@@ -2,6 +2,8 @@ package edu.nju.ticketbooking.dao;
 
 import edu.nju.ticketbooking.model.User;
 
+import java.util.List;
+
 public interface UserDao {
 
     User getUser(int userId);
@@ -20,5 +22,7 @@ public interface UserDao {
      * 申请新用户
      */
     User addNewUser(User newUser);
+
+    List<User> getUserList(String condition, Object value);
 
 }

@@ -10,4 +10,6 @@ public interface VenueSeatTypeDao {
 
     VenueSeatType modifyVenueSeatType(VenueSeatType modifiedVenueSeatType);
 
+    void deleteVenueSeatType(int venueSeatTypeId);
+
 }

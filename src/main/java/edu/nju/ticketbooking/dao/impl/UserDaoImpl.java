@@ -5,6 +5,8 @@ import edu.nju.ticketbooking.model.User;
 import edu.nju.ticketbooking.util.HibernateUtil;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UserDaoImpl implements UserDao {
 
@@ -27,6 +29,17 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User addNewUser(User newUser) {
         return (User) HibernateUtil.addNew(newUser, User.class);
+    }
+
+    @Override
+    public List<User> getUserList(String condition, Object value) {
+        String query = "FROM User";
+        Object[] params = null;
+        if (condition != null && value != null) {
+            query += " WHERE " + condition + " = ?";
+            params = new Object[]{value};
+        }
+        return HibernateUtil.getListByQuery(query, params);
     }
 
 }

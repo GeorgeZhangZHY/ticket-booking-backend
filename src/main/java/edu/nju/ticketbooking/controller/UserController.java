@@ -3,7 +3,6 @@ package edu.nju.ticketbooking.controller;
 import edu.nju.ticketbooking.model.User;
 import edu.nju.ticketbooking.service.UserServ;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,7 +27,6 @@ public class UserController {
         return userServ.applyForNewUser(newUser);
     }
 
-    @Secured({"ROLE_USER"})
     @PutMapping("/user")
     public User modifyUser(@RequestBody User modifiedUser) {
         return userServ.modifyUser(modifiedUser);

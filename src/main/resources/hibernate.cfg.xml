@@ -22,5 +22,6 @@
         <mapping class="edu.nju.ticketbooking.model.Venue"/>
         <mapping class="edu.nju.ticketbooking.model.VenueChange"/>
         <mapping class="edu.nju.ticketbooking.model.VenueSeatType"/>
+        <mapping class="edu.nju.ticketbooking.model.Summary"/>
     </session-factory>
 </hibernate-configuration>

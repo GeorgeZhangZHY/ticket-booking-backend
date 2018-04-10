@@ -1,6 +1,7 @@
 package edu.nju.ticketbooking.controller;
 
 import edu.nju.ticketbooking.model.Manager;
+import edu.nju.ticketbooking.model.Statistics;
 import edu.nju.ticketbooking.service.ManagerServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,4 +19,8 @@ public class ManagerController {
         return managerServ.getManager(managerId);
     }
 
+    @GetMapping(value = "/manager/statistics")
+    public Statistics getStatistics() {
+        return managerServ.getStatistics();
+    }
 }

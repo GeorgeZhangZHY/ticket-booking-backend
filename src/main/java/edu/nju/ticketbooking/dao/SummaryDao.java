@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface SummaryDao {
 
-    List<Summary> getUnhandledSummaryList();
+    List<Summary> getAllSummaryList();
 
     Summary modifySummary(Summary modifiedSummary);
 

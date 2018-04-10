@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface SummaryServ {
 
-    List<Summary> getUnhandledSummaryList();
+    List<Summary> getAllSummaryList();
 
     void handleSummary(int summaryId);
 

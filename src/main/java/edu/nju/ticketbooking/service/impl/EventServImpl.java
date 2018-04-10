@@ -48,11 +48,14 @@ public class EventServImpl implements EventServ {
      */
     @Scheduled(fixedRate = 30 * 1000)
     private void setDueEventHosted() {
+        System.out.println("Running: setDueEventHosted");
         for (Event event : eventDao.getAllEventList()) {
             long hostTime = event.getHostTime().getTime(),
                     now = System.currentTimeMillis();
-            if (now > hostTime) {
+            if (now > hostTime && !event.getIsHosted()) {
                 event.setHosted(true);
+                eventDao.modifyEvent(event);
+
                 List<Order> eventOrderList = orderDao.getEventOrderList(event.getEventId());
                 double totalMoney = 0;
                 for (Order order : eventOrderList) {
@@ -64,7 +67,6 @@ public class EventServImpl implements EventServ {
                 double venuePart = 0.7;
                 double venueIncome = totalMoney * venuePart,
                         platformIncome = totalMoney - venueIncome;
-
 
                 Venue venue = venueServ.getVenue(event.getVenueId());
                 Summary newSummary = new Summary(

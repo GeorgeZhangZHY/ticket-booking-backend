@@ -4,6 +4,7 @@ import edu.nju.ticketbooking.constant.EventType;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Table(name = "events")
@@ -35,6 +36,9 @@ public class Event {
 
     @Column(name = "is_hosted")
     private boolean isHosted;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<EventSeatPrice> seatPrices;
 
     public Event() {
 
@@ -111,5 +115,13 @@ public class Event {
 
     public void setHosted(boolean hosted) {
         isHosted = hosted;
+    }
+
+    public Set<EventSeatPrice> getSeatPrices() {
+        return seatPrices;
+    }
+
+    public void setSeatPrices(Set<EventSeatPrice> seatPrices) {
+        this.seatPrices = seatPrices;
     }
 }

@@ -11,8 +11,8 @@ import java.util.List;
 public class SummaryDaoImpl implements SummaryDao {
 
     @Override
-    public List<Summary> getUnhandledSummaryList() {
-        return HibernateUtil.getListByQuery("FROM Summary WHERE isHandled = ?", new Object[]{false});
+    public List<Summary> getAllSummaryList() {
+        return HibernateUtil.getListByQuery("FROM Summary", null);
     }
 
     @Override

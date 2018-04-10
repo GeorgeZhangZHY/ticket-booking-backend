@@ -2,12 +2,15 @@ package edu.nju.ticketbooking.model;
 
 import javax.persistence.*;
 
+/**
+ * 在活动举行后进行，代表一次结算
+ */
 @Entity
 @Table(name = "summaries")
 public class Summary {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "sid", updatable = false)
     private int summaryId;
 

@@ -11,9 +11,6 @@ public class EventSeatPrice {
     @Column(name = "espid", updatable = false)
     private int eventSeatPriceId;
 
-    @Column(name = "eid")
-    private int eventId;
-
     @Column(name = "vstid")
     private int venueSeatTypeId;
 
@@ -27,8 +24,7 @@ public class EventSeatPrice {
     public EventSeatPrice() {
     }
 
-    public EventSeatPrice(int eventId, int venueSeatTypeId, double price) {
-        this.eventId = eventId;
+    public EventSeatPrice(int venueSeatTypeId, double price) {
         this.venueSeatTypeId = venueSeatTypeId;
         this.price = price;
     }
@@ -39,14 +35,6 @@ public class EventSeatPrice {
 
     public void setEventSeatPriceId(int id) {
         this.eventSeatPriceId = id;
-    }
-
-    public int getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(int eventId) {
-        this.eventId = eventId;
     }
 
     public int getVenueSeatTypeId() {
